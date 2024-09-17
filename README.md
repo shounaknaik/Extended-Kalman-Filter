@@ -142,7 +142,7 @@ F = (I + A∆t)
 ## Results
 <table>
   <tr>
-      <td align = "center"> <img src="Output.png"> </td>
+      <td align = "center"> <img src="./Code/Output.png"> </td>
   </tr>
   <tr>
       <td align = "center"> Extended Kalman Filter based VIO </td>
