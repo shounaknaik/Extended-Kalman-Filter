@@ -16,46 +16,15 @@ By solving the PnP problem, we can efficiently estimate the drone's position and
 The camera calibration matrix and distortion coefficients are provided as follows:
 
 **Camera Matrix**:  
-$$
-\begin{bmatrix} 
-314.1779 & 0 & 199.4848 \\ 
-0 & 314.2218 & 113.7838 \\ 
-0 & 0 & 1 
-\end{bmatrix}
-$$
 
+![Camera Matrix](https://latex.codecogs.com/svg.image?$$\begin{bmatrix}314.1779&0&199.4848\\0&314.2218&113.7838\\0&0&1\end{bmatrix}$$)  
 **Distortion Coefficients**:  
 ![Distortion Coeffs](https://latex.codecogs.com/svg.image?\begin{bmatrix}-0.438607&0.248625&0.00072&-0.000476&-0.0911\end{bmatrix})
 
 ### Camera Model
 
 The camera model establishes the relationship between the homogeneous world coordinates and the homogeneous image coordinates. It is represented as:
-
-$$
-\begin{bmatrix} 
-x \\ 
-y \\ 
-z \\ 
-1 
-\end{bmatrix}
-=
-\begin{bmatrix} 
-fx & \gamma & u0 \\ 
-0 & fy & v0 \\ 
-0 & 0 & 1 
-\end{bmatrix}
-\begin{bmatrix} 
-r11 & r12 & r13 & t1 \\ 
-r21 & r22 & r23 & t2 \\ 
-r31 & r32 & r33 & t3 
-\end{bmatrix}
-\begin{bmatrix} 
-X \\ 
-Y \\ 
-Z \\ 
-1 
-\end{bmatrix}
-$$
+![Camera Model](https://latex.codecogs.com/svg.image?$$\begin{bmatrix}x\\y\\z\\1\end{bmatrix}=\begin{bmatrix}fx&\gamma&u0\\0&fy&v0\\0&0&1\end{bmatrix}\begin{bmatrix}r11&r12&r13&t1\\r21&r22&r23&t2\\r31&r32&r33&t3\end{bmatrix}\begin{bmatrix}X\\Y\\Z\\1\end{bmatrix}$$)
 
 Where:
 
