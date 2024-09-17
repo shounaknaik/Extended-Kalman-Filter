@@ -17,7 +17,7 @@ filenames = [
 
 
 observation_model = EstimatePoses()
-observation_model.plot_data_series('../data/studentdata1.mat')
+# observation_model.plot_data_series('../data/studentdata1.mat')
 
 print("Estimating Covariance Matrix in the observation model ........ ")
 

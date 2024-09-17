@@ -87,3 +87,68 @@ $weight2 = \frac{timestamp2 - drone\_timestamp}{timestamp2-timestamp1}$
 $interpolated\_\text{state}=weight1⋅datapoint2+weight2⋅datapoint1$
 
 ## Covariance Estimation
+Our goal is to estimate the covariance matrix in the observation model: N(0, R) → R, assuming that the noise is zero-mean.  
+`R = (1 / (n - 1)) * Σ (ν_t * ν_t^T)`  
+
+`z = [p,q] + ν`  
+We estimate the `ν` by doing the process step on the entire dataset and getting the difference between sensor and estimate value.
+
+## EKF Implementation
+
+The following equations define the Kalman Filter process:
+
+```
+μ̂_t = μ_(t-1) + δ_t * f(μ_(t-1), u_t, 0)
+Σ̅_t = F * Σ_(t-1) * F^T + V * Q * V^T
+K = Σ̂_t * G_Tt * (G_t * Σ̂_t * G_Tt + W_t * R_t * W_t^T)^(-1)
+μ_t = μ̂_t + K * (z_t - g(μ̂_t, 0))
+Σ_t = Σ̂_t - K * G_t * Σ̂_t
+```
+$G_t$ is the matrix related to the measurement model.
+
+### State Space Representation
+We use a 15-state model for this scenario. The system state is represented by the vector x, which is given by:
+```
+[x] = [p
+      q
+      ṗ
+      bg
+      ba]
+```
+where:
+
+p is a 3x1 position vector.
+q is a 3x1 orientation vector.
+ṗ is a 3x1 velocity vector (time derivative of the position).
+bg is a 3x1 gyroscope bias vector.
+ba is a 3x1 accelerometer bias vector.  
+The continuous-time state-space model can be derived as :
+
+ ```
+[ẋ] = [ ṗ 
+      G(q)^(-1) * u_ω 
+      a 
+      g + R(q) * u 
+     n_gb 
+      n_ab ]
+```
+The details of $R(q)$ and $G(q)$ can be seen in the project pdf in this repo.  
+
+### For the process model, we need to calculate the Jacobian of $ẋ$, we call the Jacobian A
+We get the next step by using the Euler One Step Approximation:   $x_\text{t+1} =x_t + Δt * ẋ$
+We discretize the continous model using the below equation
+F = (I + A∆t)
+
+## Results
+<table>
+  <tr>
+      <td align = "center"> <img src="Output.png"> </td>
+  </tr>
+  <tr>
+      <td align = "center"> Extended Kalman Filter based VIO </td>
+  </tr>
+</table>
+
+
+## Conclusion
+In summary, the Extended Kalman Filter (EKF) offers a robust approach for state estimation in nonlinear systems by integrating sensor measurements with system dynamics. This repository has covered the core principles of EKF, including system modeling, prediction, and measurement updates, and we have visualized the results against the Vicon ground truth. However, it is important to note that while the EKF is highly effective, it is computationally intensive due to the Jacobian calculations involved.
